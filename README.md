@@ -1,18 +1,36 @@
+# Contents
+- [FAQ](#FAQ)
+- [Building](#Building)
+- [Versionning](#Versionning)
+
+# FAQ
+### How to access /home folder ?
+`removable-media` interface allows direct access to /media and /mnt folders\
+Easiest way to access your /home folder is by adding a symlink to your /media folder:
+```
+sudo ln -s /home/<username> /media/home
+```
+You can now access your /home folder in the app through `/media/home`.
+
 # Building
 ## Build from GitHub (Cannonical Launchpad automatized building)
 [Canonical Launchpad build farm](https://snapcraft.io/docs/build-from-github) allows to compile for every port automaticaly.\
-But **BEWARE**, the farm has not always last snapcraft version and may fail on some ports while it will work locally (w/ or w/o cross-compilation).
+> [!WARNING]
+> But beware, the farm has not always last snapcraft version and may fail on some ports while it will work locally (w/ or w/o cross-compilation).
+
 ## Build locally
 Go in base directory and build:
 ```
 snapcraft -v
 ```
+
 ## Troubleshoot
 To resolve problems, you may check [snapcraft documentation](https://snapcraft.io/docs).\
 Easy resolution is often to perform a clean:
 ```
 snapcraft clean
 ```
+
 ## Cross compilation with Core20
 Cross compilation requires target architectures repositories to be able to find the snap's required packages.
 
@@ -78,7 +96,7 @@ snapcraft --enable-experimental-target-arch --target-arch=armhf --destructive-mo
 snapcraft --enable-experimental-target-arch --target-arch=arm64 --destructive-mode
 ```
 
-## Cross compilation with Core20
+## Cross compilation with Core24
 - [ ] TODO: Fill section
 
 # Versionning
