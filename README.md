@@ -1,6 +1,4 @@
-# Snap-building-doc
-Information for building Canonical snaps
-
+# Building
 ## Build from GitHub (Cannonical Launchpad automatized building)
 [Canonical Launchpad build farm](https://snapcraft.io/docs/build-from-github) allows to compile for every port automaticaly.\
 But **BEWARE**, the farm has not always last snapcraft version and may fail on some ports while it will work locally (w/ or w/o cross-compilation).
