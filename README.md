@@ -13,10 +13,11 @@ sudo ln -s /home/<username> /media/home
 You can now access your /home folder in the app through `/media/home`.
 
 # Building
-## Build from GitHub (Cannonical Launchpad automatized building)
-[Canonical Launchpad build farm](https://snapcraft.io/docs/build-from-github) allows to compile for every port automaticaly.\
-> [!WARNING]
-> But beware, the farm has not always last snapcraft version and may fail on some ports while it will work locally (w/ or w/o cross-compilation).
+## Contents
+- [Build locally](#Build-locally)
+- [Troubleshoot](#Troubleshoot)
+- [Cross compilation with Core20](#Cross-compilation-with-Core20)
+- [Cross compilation with Core24](#Cross-compilation-with-Core24)
 
 ## Build locally
 Go in base directory and build:
@@ -32,6 +33,9 @@ snapcraft clean
 ```
 
 ## Cross compilation with Core20
+> [!WARNING]
+> Core20 ONLY ! This won't work with Core22 or Core24 :-)
+
 Cross compilation requires target architectures repositories to be able to find the snap's required packages.
 
 Add target architecture sources (armhf, arm64):
@@ -43,7 +47,7 @@ Add package repository sources at end of sources.list.d:
 ```
 sudo nano /etc/apt/sources.list.d/ubuntu.sources
 ```
-You should notice `Architectures: amd64` added to the 2 original parts to avoid non-resolved ports\
+Notice `Architectures: amd64` added to the 2 original parts to avoid non-resolved ports\
 (armhf and arm64 does not exist in http://archive.ubuntu.com/ubuntu ).\
 Noble (Core24) and Focal (Core20) repositories are then added\
 (armhf, arm64 and other different ports are in http://ports.ubuntu.com/ubuntu-ports ).
@@ -88,7 +92,7 @@ Components: main universe restricted multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 Architectures: armhf arm64
 ```
-- [ ] TODO: Add library dependencies checking procedure
+- [ ] TODO: Add library dependencies checking info
       
 Build with:
 ```
@@ -97,7 +101,37 @@ snapcraft --enable-experimental-target-arch --target-arch=arm64 --destructive-mo
 ```
 
 ## Cross compilation with Core24
-- [ ] TODO: Fill section
+LXD/LXC supports only virtual machine of same architecture, thus the idea of cross-building snaps has been dropped.
+Yet still possible:
+
+### Canonical Remote build
+Extract from https://snapcraft.io/docs/remote-build :
+
+There are two methods for building snaps on Canonical-hosted servers, and both are available to every snap publisher:
+* **[Build from GitHub](https://snapcraft.io/docs/build-from-github)**\
+This is a build service integrated into every publisher’s Developer Account on snapcraft.io. It works by linking a snap’s GitHub repository with our Launchpad build service. See Build from GitHub for further details.
+* **Snapcraft remote-build**\
+The snapcraft remote-build command offloads the snap build process to the Launchpad build farm, pushing the potentially multi-architecture snap back to your machine. See below for further details.
+> [!WARNING]
+> But beware of the version of Snapcraft on the servers ; the farm may fail on some ports while it will work locally (w/ or w/o cross-compilation).
+
+### From a Virtual Machine : QEMU
+- For building, it's possible, but good luck and you must be trustful in a system which can even not output the console properly :-)\
+- For betatesting, it does quite the job.
+- [ ] TODO: Add QEMU img section
+
+### Using dedicated hardware
+Given you have enough resources (especially RAM), what a very nice option to compile directly on the arch !
+
+Some boards:
+* For ARMHF and ARM64:
+[Rasberry PI 5 or 4](https://www.raspberrypi.com) will do the job
+
+* For RISC-V64:
+[BeagleV®-Ahead](https://www.beagleboard.org/boards/beaglev-ahead) \
+More or less supported/open/working boards on https://wiki.ubuntu.com/RISC-V/
+> [!WARNING]
+> Current version of Snapcraft (8.4.1) fails to pack snaps
 
 # Versionning
 Current versionning of my snaps follows the exact same one from the source.\
